@@ -21,9 +21,13 @@ mensaseite = Nokogiri::HTML(open("http://www.studentenwerk.bremen.de/files/main_
 
 woche = []
 
+gerichte_positionen = {}
+gerichte_positionen["Essen 1"] = 4
+gerichte_positionen["Essen 2"] = 6
+
 tag = MensaTag.new("25.01.2012", "Fr.")
-tag.gerichte["essen1"] = "Steak mit Kartoffeln"
-tag.gerichte["essen2"] = "Erbsensuppe"
+tag.gerichte["Essen 1"] = "Steak mit Kartoffeln"
+tag.gerichte["Essen 2"] = "Erbsensuppe"
 
 tag.print_tag
 
@@ -31,6 +35,11 @@ tag.print_tag
   datum = mensaseite.xpath("/html/body/table/tr[3]/td[#{i+2}]/font/b").text
   wochentag = mensaseite.xpath("/html/body/table/tr[2]/td[#{i+2}]/font/b").text
   tag = MensaTag.new(datum, wochentag)
+
+  gerichte_positionen.each do |key, value|
+    tag.gerichte[key] = mensaseite.xpath("/html/body/table/tr[#{value}]/td[#{i+2}]/font/b").text
+  end
+
   woche << tag
   print tag.print_tag
 end
