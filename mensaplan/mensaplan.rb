@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require 'socket'
 
 class MensaTag
   attr_accessor :datum, :wochentag, :gerichte
@@ -46,4 +47,14 @@ puts tag.get_tag
   woche << tag
   puts tag.get_tag
 end
+
+
+woche.each do |tag|
+#  s = TCPSocket.new '192.168.175.13', 6666
+#  s.puts tag.get_tag
+end
+
+s = TCPSocket.new '192.168.175.13', 6666
+s.puts "hi\n"
+s.puts "asd"
 
