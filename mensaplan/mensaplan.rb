@@ -19,8 +19,9 @@ class MensaTag
   end
 end
 
-# daten des zielhost (hostname oder ip, port)
-ZIEL_HOST = 'irccat-host'
+# daten senden ja/nein, daten des zielhost (hostname oder ip, port)
+ZIEL_SEND = false
+ZIEL_HOST = 'zielhost.name'
 ZIEL_PORT = 6666
 
 # mensaseite per nokogiri holen
@@ -58,10 +59,13 @@ end
 
 # array der woche durchlaufen
 woche.each do |tag|
-  # neuen socket erstellen und zeile des tages senden (workaround hier: immer neuer socket, da derzeitiger zielhost nur einmalig eine zeile annimmt...)
-  s = TCPSocket.new ZIEL_HOST, ZIEL_PORT
-  s.puts tag.get_tag
-  
+  # falls daten gesendet werden sollen, dann machen...
+  if ZIEL_SEND
+    # neuen socket erstellen und zeile des tages senden (workaround hier: immer neuer socket, da derzeitiger zielhost nur einmalig eine zeile annimmt...)
+    s = TCPSocket.new ZIEL_HOST, ZIEL_PORT
+    s.puts tag.get_tag
+  end
+
   # zeile lokal ausgeben
   puts tag.get_tag
 end
