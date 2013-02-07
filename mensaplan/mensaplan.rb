@@ -33,11 +33,12 @@ mensaseite.search('br').each { |br| br.replace(" ") }
 woche = []
 
 # positionen der gerichte in der mensaseite angeben (fuer xpath) 
-gerichte_positionen = {}
-gerichte_positionen["Essen 1"] = 4
-gerichte_positionen["Essen 2"] = 6
-gerichte_positionen["Vegetarisch"] = 20
-gerichte_positionen["Wok, Pfanne & Co."] = 28
+GERICHTE_POSITIONEN = {
+  "Essen 1" => 4,
+  "Essen 2" => 6,
+  "Vegetarisch" => 20,
+  "Wok, Pfanne & Co." => 28,
+}
 
 # wochentage durchlaufen
 5.times do |i|
@@ -49,7 +50,7 @@ gerichte_positionen["Wok, Pfanne & Co."] = 28
   tag = MensaTag.new(datum, wochentag)
 
   # alle gewuenschten mahlzeiten durchlaufen und anhand der hinterlegten position aus der mensaseite holen
-  gerichte_positionen.each do |key, value|
+  GERICHTE_POSITIONEN.each do |key, value|
     tag.gerichte[key] = mensaseite.xpath("/html/body/table/tr[#{value}]/td[#{i+2}]/font/b").text.strip.squeeze(" ")
   end
 
