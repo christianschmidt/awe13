@@ -9,6 +9,7 @@ class MensaTag
     @wochentag = wochentag
     @gerichte = {} 
   end
+  # erstellt einen String aus den daten des tages und liefert diesen zurueck
   def get_tag()
     tag = "#{@wochentag} #{@datum}"
     @gerichte.each do |key, value|
@@ -18,7 +19,8 @@ class MensaTag
   end
 end
 
-ZIEL_HOST = '192.168.175.13'
+# daten des zielhost (hostname oder ip, port)
+ZIEL_HOST = 'irccat-host'
 ZIEL_PORT = 6666
 
 # mensaseite per nokogiri holen
@@ -35,7 +37,6 @@ gerichte_positionen["Essen 1"] = 4
 gerichte_positionen["Essen 2"] = 6
 gerichte_positionen["Vegetarisch"] = 20
 gerichte_positionen["Wok, Pfanne & Co."] = 28
-
 
 # wochentage durchlaufen
 5.times do |i|
@@ -57,7 +58,7 @@ end
 
 # array der woche durchlaufen
 woche.each do |tag|
-  # neuen socket erstellen und zeile des tages senden (workaround hier: immer neuer socket, da zielhost nur einmalig eine zeile annimmt...)
+  # neuen socket erstellen und zeile des tages senden (workaround hier: immer neuer socket, da derzeitiger zielhost nur einmalig eine zeile annimmt...)
   s = TCPSocket.new ZIEL_HOST, ZIEL_PORT
   s.puts tag.get_tag
   
