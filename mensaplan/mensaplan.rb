@@ -41,17 +41,17 @@ GERICHTE_POSITIONEN = {
 }
 
 # wochentage durchlaufen
-5.times do |i|
+(2..6).each do |i|
   # datum und wochentag aus mensaseite holen
-  datum = mensaseite.xpath("/html/body/table/tr[3]/td[#{i+2}]/font/b").text
-  wochentag = mensaseite.xpath("/html/body/table/tr[2]/td[#{i+2}]/font/b").text
+  datum = mensaseite.xpath("/html/body/table/tr[3]/td[#{i}]/font/b").text
+  wochentag = mensaseite.xpath("/html/body/table/tr[2]/td[#{i}]/font/b").text
   
   # mensaTag Objekt mit datum und wochentag initialisieren
   tag = MensaTag.new(datum, wochentag)
 
   # alle gewuenschten mahlzeiten durchlaufen und anhand der hinterlegten position aus der mensaseite holen
   GERICHTE_POSITIONEN.each do |key, value|
-    tag.gerichte[key] = mensaseite.xpath("/html/body/table/tr[#{value}]/td[#{i+2}]/font/b").text.strip.squeeze(" ")
+    tag.gerichte[key] = mensaseite.xpath("/html/body/table/tr[#{value}]/td[#{i}]/font/b").text.strip.squeeze(" ")
   end
 
   # tag in array der woche einfuegen
