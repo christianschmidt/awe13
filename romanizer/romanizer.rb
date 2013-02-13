@@ -9,20 +9,27 @@ class Romanizer
     "D" => 500,
     "M" => 1000
   }
-  # Werte -> Zeichen zuordnung (explizit nochmal, wegen ggf. moeglichen sondernfaellen)
+  # Werte -> Zeichen zuordnung (explizit nochmal, wegen ggf. moeglichen sondernfaellen). Absteigend wichtig!
   WERTE_ZEICHEN = {
-    1 => "1",
-    5 => "V",
-    10 => "X",
-    50 => "L",
+    1000 => "M",
+    500 => "D",
     100 => "C",
-    500 => "D", 
-    1000 => "M"
+    50 => "L",
+    10 => "X",
+    5 => "V",
+    1 => "I"
   }
 
   # wandelt eine Zahl aus arabischer in roemische zahlschrift um, wendet einfache umrechnung an
   def self.to_roman_simple number
-  	return nil
+    @res = ""
+    @rest = number
+    WERTE_ZEICHEN.each do |key, value|
+      ganzzahl = @rest / key      
+      ganzzahl.times { @res << value }
+      @rest = @rest % key
+    end
+    return @res
   end
   # wandelt eine Zahl aus roemischee in arabische zahlschrift um, wendet einfache umrechnung an (dabei muss uebergebene zeichenkette nach definition absteigend sortiert sein)
   def self.to_arabic_simple zeichenkette
@@ -39,7 +46,7 @@ class Romanizer
     	# falls unbekanntes zeichen enthalten ist sofort nil zurueckliefern
         return nil unless ZEICHEN_WERTE.has_key?(c)
 
-        # falls neues zeichen groesser als letztes, nil zurueckgeben
+        # falls neues zeichen groesser als letztes, sofort nil zurueckgeben
 		return nil if ZEICHEN_WERTE[c] > @last_value;
 
         # zeichenwert auf rueckgabebuffer addieren
