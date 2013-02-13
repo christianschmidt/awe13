@@ -11,3 +11,5 @@ z.B.
 `Romanizer.to_arabic_simple("V")` => 5
 
 `Romanizer.to_arabic_simple("MDCCCCLXXXIIII")` => 1984
+
+`Romanizer.to_arabic_complex("MCMLXXXIV")` => 1984
