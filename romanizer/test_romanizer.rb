@@ -33,7 +33,7 @@ class TestRomanizer < Test::Unit::TestCase
       "D" => 500,
       "M" => 1000
     }
-  @faelle_complex = {
+    @faelle_complex = {
       "I" => 1,
       "II" => 2,
       "III" => 3,
@@ -59,12 +59,7 @@ class TestRomanizer < Test::Unit::TestCase
       "D" => 500,
       "M" => 1000
     }
-  @faelle_simple_fehler = {
-      "a" => nil,
-      "K" => nil,
-      "x" => nil,
-      "IX" => nil
-  }
+    @faelle_simple_fehler = ["a", "K", "x", "IX"]    
   end
   # nach jedem Test ausfuehren
   def teardown
@@ -83,8 +78,8 @@ class TestRomanizer < Test::Unit::TestCase
   end
   # testet die fehlerfaelle fuer simple umrechnung arabisch->roemisch 
   def test_to_arabic_simple_err
-    @faelle_simple_fehler.each do |key, value|
-      assert_equal(value, Romanizer.to_arabic_simple(key));
+    @faelle_simple_fehler.each do |key|
+      assert_equal(nil, Romanizer.to_arabic_simple(key));
     end
   end
   # testet die faelle fuer umrechnung nach substraktionsregel roemisch->arabisch
