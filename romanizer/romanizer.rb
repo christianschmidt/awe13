@@ -1,16 +1,20 @@
 class Romanizer
   # Zeichen -> Zeichen zuordnung 
-  ZEICHEN_WERTE = {
+  ZEICHEN_WERTE_SIMPLE = {
     "I" => 1,
     "V" => 5,
     "X" => 10,
     "L" => 50,
     "C" => 100,
     "D" => 500,
-    "M" => 1000
+    "M" => 1000,
+    "\u2181" => 5000,
+    "\u2182" => 10000
   }
-  # Werte -> Zeichen zuordnung (explizit nochmal, wegen ggf. moeglichen sondernfaellen). Absteigend wichtig!
-  WERTE_ZEICHEN = {
+  # Werte -> Zeichen zuordnung (erstmal explizit nochmal, wegen ggf. moeglichen sondernfaellen?). Absteigend wichtig!
+  WERTE_ZEICHEN_SIMPLE = {
+    10000 => "\u2182",
+    5000 => "\u2181",
     1000 => "M",
     500 => "D",
     100 => "C",
@@ -19,12 +23,36 @@ class Romanizer
     5 => "V",
     1 => "I"
   }
+   
+  WERTE_ZEICHEN_COMPLEX = {
+    10000 => "\u2182",
+    5000 => "\u2181",
+    4000 => "M\u2181",
+    1000 => "M",
+    999 => "CMXCIX",
+    990 => "CMXC",
+    900 => "CM",
+    500 => "D",
+    499 => "ID",
+    490 => "XD",
+    400 => "CD",
+    100 => "C",
+    90 => "XC",
+    50 => "L",
+    49 => "IL",
+    40 => "XL",
+    10 => "X",
+    9 => "IX",
+    5 => "V",
+    4 => "IV",
+    1 => "I"
+  }
 
   # wandelt eine Zahl aus arabischer in roemische zahlschrift um, wendet einfache umrechnung an
   def self.to_roman_simple number
     @res = ""
     @rest = number
-    WERTE_ZEICHEN.each do |key, value|
+    WERTE_ZEICHEN_SIMPLE.each do |key, value|
       ganzzahl = @rest / key      
       ganzzahl.times { @res << value }
       @rest = @rest % key
@@ -36,21 +64,21 @@ class Romanizer
     @res = 0
     
     # wenn erstes zeichen bekannt ist, auf vergleichsbuffer setzen, sonst return nil
-    if ZEICHEN_WERTE.has_key?(zeichenkette.chars.first)
-      @last_value = ZEICHEN_WERTE[zeichenkette.chars.first]
+    if ZEICHEN_WERTE_SIMPLE.has_key?(zeichenkette.chars.first)
+      @last_value = ZEICHEN_WERTE_SIMPLE[zeichenkette.chars.first]
     else
       return nil
     end
 
     zeichenkette.each_char do |c|
     	# falls unbekanntes zeichen enthalten ist sofort nil zurueckliefern
-        return nil unless ZEICHEN_WERTE.has_key?(c)
+        return nil unless ZEICHEN_WERTE_SIMPLE.has_key?(c)
 
         # falls neues zeichen groesser als letztes, sofort nil zurueckgeben
-		return nil if ZEICHEN_WERTE[c] > @last_value;
+		return nil if ZEICHEN_WERTE_SIMPLE[c] > @last_value;
 
         # zeichenwert auf rueckgabebuffer addieren
-    	@res += ZEICHEN_WERTE[c];
+    	@res += ZEICHEN_WERTE_SIMPLE[c];
     end
     
     # additionsbuffer rueckliefern
@@ -58,7 +86,14 @@ class Romanizer
   end
   # wandelt eine Zahl aus arabischer in roemische zahlschrift um, wendet umrechnung mit substraktionsregel an
   def self.to_roman_complex number
-  	return nil
+  	@res = ""
+    @rest = number
+    WERTE_ZEICHEN_COMPLEX.each do |key, value|
+      ganzzahl = @rest / key      
+      ganzzahl.times { @res << value }
+      @rest = @rest % key
+    end
+    return @res
   end
   # wandelt eine Zahl aus roemischer in arabische zahlschrift um, wendet umrechnung mit substraktionsregel an
   def self.to_arabic_complex zeichenkette
