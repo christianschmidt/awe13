@@ -1,17 +1,5 @@
 class Romanizer
-  # Zeichen -> Zeichen zuordnung 
-  ZEICHEN_WERTE_SIMPLE = {
-    "I" => 1,
-    "V" => 5,
-    "X" => 10,
-    "L" => 50,
-    "C" => 100,
-    "D" => 500,
-    "M" => 1000,
-    "\u2181" => 5000,
-    "\u2182" => 10000
-  }
-  # Werte -> Zeichen zuordnung (erstmal explizit nochmal, wegen ggf. moeglichen sondernfaellen?). Absteigend wichtig!
+  # Werte -> Zeichen zuordnung. Absteigend wichtig!
   WERTE_ZEICHEN_SIMPLE = {
     10000 => "\u2182",
     5000 => "\u2181",
@@ -23,6 +11,10 @@ class Romanizer
     5 => "V",
     1 => "I"
   }
+  
+  # Zeichen -> Werte zuordnung
+  ZEICHEN_WERTE_SIMPLE = WERTE_ZEICHEN_SIMPLE.invert
+
   # Werte -> Zeichen zuordnung fuer complex methode (erstmal explizit nochmal, wegen ggf. moeglichen sondernfaellen?). Absteigend wichtig!
   WERTE_ZEICHEN_COMPLEX = {
     10000 => "\u2182",
@@ -47,7 +39,8 @@ class Romanizer
     4 => "IV",
     1 => "I"
   }
-
+  
+  # Zeichen -> Werte zuordnung
   ZEICHEN_WERTE_COMPLEX = WERTE_ZEICHEN_COMPLEX.invert
 
   # wandelt eine Zahl aus arabischer in roemische zahlschrift um, wendet einfache umrechnung an
