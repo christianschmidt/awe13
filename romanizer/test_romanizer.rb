@@ -56,7 +56,7 @@ class TestRomanizer < Test::Unit::TestCase
       "XV" => 15,
       "XIX" => 19,
       "XL" => 40,
-      "XLIX" => 49,
+      "IL" => 49,
       "L" => 50,
       "LI" => 51,
       "C" => 100,
