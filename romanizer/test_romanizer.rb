@@ -72,7 +72,7 @@ class TestRomanizer < Test::Unit::TestCase
   # testet die faelle fuer simple umrechnung arabisch->roemisch 
   def test_to_roman_simple
     @faelle_simple.each do |key, value|
-      assert_equal(key, Romanizer.to_arabic_simple(value));
+      assert_equal(key, Romanizer.to_roman_simple(value));
     end
   end
   # testet die faelle fuer umrechnung nach substraktionsregel roemisch->arabisch
@@ -84,7 +84,7 @@ class TestRomanizer < Test::Unit::TestCase
   # testet die faelle fuer umrechnung nach substraktionsregel arabisch->roemisch 
   def test_to_roman_complex
     @faelle_complex.each do |key, value|
-      assert_equal(key, Romanizer.to_arabic_complex(value));
+      assert_equal(key, Romanizer.to_roman_complex(value));
     end
   end
 end
