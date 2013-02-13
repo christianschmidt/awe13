@@ -8,7 +8,7 @@ class TestRomanizer < Test::Unit::TestCase
   # vor jedem Test ausfuehren
   def setup
     # 5000 = "\u2181" http://unicode.org/cldr/utility/character.jsp?a=2181
-    # 10000 = http://unicode.org/cldr/utility/character.jsp?a=2182
+    # 10000 = "\u2182"  http://unicode.org/cldr/utility/character.jsp?a=2182
     @faelle_simple = {
       "I" => 1,
       "II" => 2,
