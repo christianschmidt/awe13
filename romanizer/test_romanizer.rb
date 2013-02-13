@@ -34,8 +34,11 @@ class TestRomanizer < Test::Unit::TestCase
       "CL" => 150,
       "D" => 500,
       "M" => 1000,
+      "MDCCCCLXXXIIII" => 1984,
       "\u2181" => 5000,
-      "\u2182" => 10000
+      "\u2181C" => 5100,
+      "\u2182" => 10000,
+      "\u2182\u2181CC" => 15200
     }
     @faelle_complex = {
       "I" => 1,
