@@ -23,7 +23,7 @@ class Romanizer
     5 => "V",
     1 => "I"
   }
-   
+  # Werte -> Zeichen zuordnung fuer complex methode (erstmal explizit nochmal, wegen ggf. moeglichen sondernfaellen?). Absteigend wichtig!
   WERTE_ZEICHEN_COMPLEX = {
     10000 => "\u2182",
     5000 => "\u2181",
@@ -47,6 +47,8 @@ class Romanizer
     4 => "IV",
     1 => "I"
   }
+
+  ZEICHEN_WERTE_COMPLEX = WERTE_ZEICHEN_COMPLEX.invert
 
   # wandelt eine Zahl aus arabischer in roemische zahlschrift um, wendet einfache umrechnung an
   def self.to_roman_simple number
@@ -75,16 +77,16 @@ class Romanizer
         return nil unless ZEICHEN_WERTE_SIMPLE.has_key?(c)
 
         # falls neues zeichen groesser als letztes, sofort nil zurueckgeben
-		return nil if ZEICHEN_WERTE_SIMPLE[c] > @last_value;
+		return nil if ZEICHEN_WERTE_SIMPLE[c] > @last_value
 
         # zeichenwert auf rueckgabebuffer addieren
-    	@res += ZEICHEN_WERTE_SIMPLE[c];
+    	@res += ZEICHEN_WERTE_SIMPLE[c]
     end
     
     # additionsbuffer rueckliefern
   	return @res
   end
-  # wandelt eine Zahl aus arabischer in roemische zahlschrift um, wendet umrechnung mit substraktionsregel an
+  # wandelt eine Zahl aus arabischer in roemische zahlschrift um, wendet bei umrechnung substraktionsregel an
   def self.to_roman_complex number
   	@res = ""
     @rest = number
@@ -95,8 +97,20 @@ class Romanizer
     end
     return @res
   end
-  # wandelt eine Zahl aus roemischer in arabische zahlschrift um, wendet umrechnung mit substraktionsregel an
+  # wandelt eine Zahl aus roemischer in arabische zahlschrift um, wendet umrechnung auf mit substraktionsregel vorliegende zeichenketten an
   def self.to_arabic_complex zeichenkette
-  	return nil
+    @res = 0
+    @pos_beg = 0
+    @pos_end = zeichenkette.length
+    while @pos_end > 0
+      partial = zeichenkette.slice(@pos_beg, @pos_end)
+      if ZEICHEN_WERTE_COMPLEX.has_key?(partial) 
+        @res += ZEICHEN_WERTE_COMPLEX[partial]
+        @pos_beg += @pos_end
+        @pos_end = zeichenkette.length - @pos_beg +1
+      end
+      return nil if (@pos_end -= 1) < 0
+    end
+    return @res
   end
 end
