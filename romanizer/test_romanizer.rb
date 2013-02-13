@@ -7,6 +7,8 @@ class TestRomanizer < Test::Unit::TestCase
   
   # vor jedem Test ausfuehren
   def setup
+    # 5000 = "\u2181" http://unicode.org/cldr/utility/character.jsp?a=2181
+    # 10000 = http://unicode.org/cldr/utility/character.jsp?a=2182
     @faelle_simple = {
       "I" => 1,
       "II" => 2,
@@ -31,7 +33,9 @@ class TestRomanizer < Test::Unit::TestCase
       "CV" => 105,
       "CL" => 150,
       "D" => 500,
-      "M" => 1000
+      "M" => 1000,
+      "\u2181" => 5000,
+      "\u2182" => 10000
     }
     @faelle_complex = {
       "I" => 1,
@@ -57,7 +61,9 @@ class TestRomanizer < Test::Unit::TestCase
       "CV" => 105,
       "CL" => 150,
       "D" => 500,
-      "M" => 1000
+      "M" => 1000,
+      "\u2181" => 5000,
+      "\u2182" => 10000
     }
     @faelle_simple_fehler = ["a", "K", "x", "IX"]    
   end
