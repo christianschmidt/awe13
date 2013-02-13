@@ -68,7 +68,7 @@ class TestRomanizer < Test::Unit::TestCase
       "\u2181" => 5000,
       "\u2182" => 10000
     }
-    @faelle_simple_fehler = ["a", "K", "x", "IX"]    
+    @faelle_simple_fehler = ["a", "K", "x", "IX"]
   end
   # nach jedem Test ausfuehren
   def teardown
@@ -101,6 +101,18 @@ class TestRomanizer < Test::Unit::TestCase
   def test_to_roman_complex
     @faelle_complex.each do |key, value|
       assert_equal(key, Romanizer.to_roman_complex(value));
+    end
+  end
+  # testet die faelle fuer umrechnung arabisch->roemisch->arabisch (simple)
+  def test_double_simple
+    (1..10000).each do |i|
+      assert_equal(i, Romanizer.to_arabic_simple(Romanizer.to_roman_simple(i)));
+    end
+  end
+    # testet die faelle fuer umrechnung arabisch->roemisch->arabisch (complex)
+  def test_double_complex
+    (1..10000).each do |i|
+      assert_equal(i, Romanizer.to_arabic_complex(Romanizer.to_roman_complex(i)));
     end
   end
 end
