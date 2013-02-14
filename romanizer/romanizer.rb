@@ -66,22 +66,19 @@ class Romanizer
     end
 
     zeichenkette.each_char do |c|
-    	# falls unbekanntes zeichen enthalten ist sofort nil zurueckliefern
-        return nil unless ZEICHEN_WERTE_SIMPLE.has_key?(c)
-
-        # falls neues zeichen groesser als letztes, sofort nil zurueckgeben
-		return nil if ZEICHEN_WERTE_SIMPLE[c] > @last_value
-
-        # zeichenwert auf rueckgabebuffer addieren
-    	@res += ZEICHEN_WERTE_SIMPLE[c]
+      #falls unbekanntes zeichen enthalten ist sofort nil zurueckliefern
+      return nil unless ZEICHEN_WERTE_SIMPLE.has_key?(c)
+      # falls neues zeichen groesser als letztes, sofort nil zurueckgeben
+      return nil if ZEICHEN_WERTE_SIMPLE[c] > @last_value
+      # zeichenwert auf rueckgabebuffer addieren
+      @res += ZEICHEN_WERTE_SIMPLE[c]
     end
     
-    # additionsbuffer rueckliefern
-  	return @res
+    return @res
   end
   # wandelt eine Zahl aus arabischer in roemische zahlschrift um, wendet bei umrechnung substraktionsregel an
   def self.to_roman_complex number
-  	@res = ""
+    @res = ""
     @rest = number
     WERTE_ZEICHEN_COMPLEX.each do |key, value|
       ganzzahl = @rest / key      
